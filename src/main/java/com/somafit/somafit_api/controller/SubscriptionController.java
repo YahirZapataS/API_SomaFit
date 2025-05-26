@@ -4,6 +4,9 @@ import com.somafit.somafit_api.model.Subscription;
 import com.somafit.somafit_api.model.User;
 import com.somafit.somafit_api.repository.SubscriptionRepository;
 import com.somafit.somafit_api.repository.UserRepository;
+
+import jakarta.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,14 +15,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/subscriptions")
 public class SubscriptionController {
-    
+
     @Autowired
     private SubscriptionRepository subscriptionRepository;
 
     @Autowired
     private UserRepository userRepo;
 
-    @PostMapping("/regiser/{userId}")
+    @PostMapping("/register/{userId}")
     public Subscription register(@PathVariable Long userId, @RequestBody Subscription sub) {
         User user = userRepo.findById(userId).orElse(null);
         if (user != null) {
@@ -51,8 +54,13 @@ public class SubscriptionController {
         }).orElse(null);
     }
 
-    @DeleteMapping("(/{id})")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         subscriptionRepository.deleteById(id);
+    }
+
+    @PostConstruct
+    public void init() {
+        System.out.println(">> SubscriptionController cargado correctamente");
     }
 }
