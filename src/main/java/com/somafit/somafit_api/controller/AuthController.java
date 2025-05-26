@@ -1,13 +1,17 @@
-// com.somafit.controller.AuthController.java
 package com.somafit.somafit_api.controller;
 
-import com.somafit.somafit_api.config.*;
-import com.somafit.somafit_api.model.*;
-import com.somafit.somafit_api.service.*;
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.somafit.somafit_api.config.JwtUtil;
+import com.somafit.somafit_api.model.User;
+import com.somafit.somafit_api.service.UserService;
+
+import lombok.Data;
 
 @RestController
 @RequestMapping("/auth")
