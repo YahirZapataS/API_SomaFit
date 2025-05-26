@@ -3,6 +3,7 @@ package com.somafit.somafit_api.controller;
 import com.somafit.somafit_api.model.User;
 import com.somafit.somafit_api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,6 +36,7 @@ public class UserController {
         }).orElse(null);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         userRepository.deleteById(id);

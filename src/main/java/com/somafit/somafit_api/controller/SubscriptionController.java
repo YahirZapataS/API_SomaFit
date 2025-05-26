@@ -8,6 +8,7 @@ import com.somafit.somafit_api.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class SubscriptionController {
     @Autowired
     private UserRepository userRepo;
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPCIONISTA')")
     @PostMapping("/register/{userId}")
     public Subscription register(@PathVariable Long userId, @RequestBody Subscription sub) {
         User user = userRepo.findById(userId).orElse(null);

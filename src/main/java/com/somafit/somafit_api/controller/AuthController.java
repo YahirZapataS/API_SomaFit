@@ -31,7 +31,7 @@ public class AuthController {
     public String login(@RequestBody AuthRequest request) {
         User u = service.findByUsername(request.getUsername());
         if (u != null && encoder.matches(request.getPassword(), u.getPassword())) {
-            return jwtUtil.generateToken(u.getUsername());
+            return jwtUtil.generateToken(u.getUsername(), u.getRole());
         }
         return "Credenciales inválidas";
     }
