@@ -1,9 +1,11 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Login({ setToken, setRole }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
@@ -18,6 +20,7 @@ function Login({ setToken, setRole }) {
 
       setToken(token);
       setRole(payload.role);
+      navigate('/');
     } catch (err) {
       setError('Credenciales inválidas');
     }
@@ -48,6 +51,9 @@ function Login({ setToken, setRole }) {
         >
           Ingresar
         </button>
+        <p className="text-center mt-2 text-sm">
+          ¿No tienes cuenta? <a href="/register" className="text-blue-600 hover:underline">Regístrate</a>
+        </p>
       </div>
     </div>
   );
