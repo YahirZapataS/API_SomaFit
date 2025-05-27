@@ -22,8 +22,7 @@ public class SubscriptionController {
 
     @Autowired
     private UserRepository userRepo;
-
-    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPCIONISTA')")
+    
     @PostMapping("/register/{userId}")
     public Subscription register(@PathVariable Long userId, @RequestBody Subscription sub) {
         User user = userRepo.findById(userId).orElse(null);
