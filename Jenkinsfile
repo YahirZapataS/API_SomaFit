@@ -7,6 +7,10 @@ pipeline {
     IMAGE_FRONTEND = 'yahirzapatas/somafit-ui'
   }
 
+  tools {
+    nodejs 'NodeJS'
+  }
+
   stages {
     stage('Clonar Repositorio') {
       steps {
@@ -17,7 +21,7 @@ pipeline {
     stage('Compilar API') {
       steps {
         dir('.') {
-          sh './mvnw clean package -DskipTests'
+          sh 'chmod +x mvnw && ./mvnw clean package -DskipTests'
         }
       }
     }
@@ -30,6 +34,13 @@ pipeline {
         }
       }
     }
+    
+    stage('Verificar Docker') {
+        steps {
+            sh 'docker --version'
+        }
+    }
+
 
     stage('Construir Imágenes Docker') {
       steps {
