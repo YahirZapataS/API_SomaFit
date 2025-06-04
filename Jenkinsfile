@@ -10,7 +10,7 @@ pipeline {
   stages {
     stage('Clonar Repositorio') {
       steps {
-        git url: 'https://github.com/tuusuario/somafit.git', branch: 'main'
+        git url: 'https://github.com/yahirzapatas/somafit.git', branch: 'main'
       }
     }
 
