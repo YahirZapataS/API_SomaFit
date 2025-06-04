@@ -2,13 +2,19 @@ pipeline {
   agent any
 
   environment {
-    DOCKERHUB_CREDENTIALS = credentials('dockerhub-creds') // ID configurado en Jenkins
+    DOCKERHUB_CREDENTIALS = credentials('dockerhub-creds')
     IMAGE_BACKEND = 'tuusuario/somafit-api'
     IMAGE_FRONTEND = 'tuusuario/somafit-ui'
   }
 
   stages {
-    stage('Compilar Backend') {
+    stage('Clonar Repositorio') {
+      steps {
+        git url: 'https://github.com/tuusuario/somafit.git', branch: 'main'
+      }
+    }
+
+    stage('Compilar API') {
       steps {
         dir('.') {
           sh './mvnw clean package -DskipTests'
@@ -16,7 +22,7 @@ pipeline {
       }
     }
 
-    stage('Compilar Frontend') {
+    stage('Build UI') {
       steps {
         dir('somafit-ui') {
           sh 'npm install'
@@ -25,14 +31,14 @@ pipeline {
       }
     }
 
-    stage('Build Docker Images') {
+    stage('Construir Imágenes Docker') {
       steps {
         sh 'docker build -t $IMAGE_BACKEND .'
         sh 'docker build -t $IMAGE_FRONTEND ./somafit-ui'
       }
     }
 
-    stage('Push a DockerHub') {
+    stage('Subir a DockerHub') {
       steps {
         withDockerRegistry([url: '', credentialsId: 'dockerhub-creds']) {
           sh 'docker push $IMAGE_BACKEND'
@@ -40,14 +46,24 @@ pipeline {
         }
       }
     }
+
+    stage('Desplegar API') {
+      steps {
+        sh '''
+        docker stop somafit-api || true
+        docker rm somafit-api || true
+        docker run -d --name somafit-api -p 8080:8080 $IMAGE_BACKEND
+        '''
+      }
+    }
   }
 
   post {
     success {
-      echo '✅ Despliegue completo.'
+      echo '🚀 Despliegue exitoso desde GitHub hasta DockerHub + ejecución.'
     }
     failure {
-      echo '❌ Algo falló. Verifica logs.'
+      echo '❌ Falló el pipeline, revisa los logs.'
     }
   }
 }
