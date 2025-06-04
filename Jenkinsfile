@@ -3,8 +3,8 @@ pipeline {
 
   environment {
     DOCKERHUB_CREDENTIALS = credentials('dockerhub-creds')
-    IMAGE_BACKEND = 'tuusuario/somafit-api'
-    IMAGE_FRONTEND = 'tuusuario/somafit-ui'
+    IMAGE_BACKEND = 'yahirzapatas/somafit-api'
+    IMAGE_FRONTEND = 'yahirzapatas/somafit-ui'
   }
 
   stages {
