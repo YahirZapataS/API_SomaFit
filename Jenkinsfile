@@ -29,5 +29,17 @@ pipeline {
                 }
             }
         }
+
+        stage('Deploy') {
+            agent any
+            steps {
+                script {
+                    sh 'docker stop somafit-api || true'
+                    sh 'docker rm somafit-api || true'
+
+                    sh 'docker run -d --name somafit-api -p 8080:8080 yahirzapatas/somafit-api:latest'
+                }
+            }
+        }
     }
 }
