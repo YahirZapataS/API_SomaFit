@@ -1,9 +1,7 @@
-FROM openjdk:21-jdk-slim
+FROM anapsix/alpine-java
 
-WORKDIR /app
+LABEL maintainer="yahirzapatae@gmail.com"
 
 COPY somafit-api-0.0.1-SNAPSHOT.jar app.jar
 
-EXPOSE 8080
-
-ENTRYPOINT ["java", "-jar", "app.jar"]
+CMD ["java","-jar","somafit-api-0.0.1-SNAPSHOT.jar"]
