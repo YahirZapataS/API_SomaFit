@@ -34,8 +34,8 @@ pipeline {
             agent any
             steps {
                 script {
-                    sh 'docker stop yahirzapatas/somafit-api || true'
-                    sh 'docker rm yahirzapatas/somafit-api || true'
+                    sh 'docker stop yahirzapatas/somafit-api'
+                    sh 'docker rm yahirzapatas/somafit-api'
 
                     sh 'docker run -d --name somafit-api -p 8080:8080 yahirzapatas/somafit-api:latest'
                 }
